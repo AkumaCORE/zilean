@@ -41,6 +41,9 @@
 
         public static Menu SkinMenu { get; private set; }
 
+        public static SpellSlot IgniteSlot = SpellSlot.Unknown;
+
+        private static Spell.Targeted ign;
 
         private static Menu ZilMenu;
 
@@ -84,6 +87,7 @@
             ComboMenu.Add("useW2", new CheckBox("Use W only if Q hits"));
             ComboMenu.Add("useE", new CheckBox("Use E"));
             ComboMenu.Add("Qcc", new CheckBox("Use Q on immobile"));
+            ComboMenu.Add("useign", new CheckBox("Use Ignite"));
 
 
             HarassMenu = ZilMenu.AddSubMenu("Harass");
@@ -113,6 +117,8 @@
             MiscMenu.Add("suppmode", new CheckBox("Support mode", false));
             MiscMenu.Add("gap", new CheckBox("gapcloser"));
             MiscMenu.Add("int", new CheckBox("interrupter"));
+            MiscMenu.Add("ksQ", new CheckBox("Q ks"));
+
 
             DrawMenu = ZilMenu.AddSubMenu("Draw");
             DrawMenu.AddGroupLabel("Drawings Settings");
@@ -146,6 +152,8 @@
             W = new Spell.Active(SpellSlot.W, 0);
             E = new Spell.Targeted(SpellSlot.E, 700);
             R = new Spell.Targeted(SpellSlot.R, 900);
+
+            ign = new Spell.Targeted(ObjectManager.Player.GetSpellSlotFromName("summonerdot"), 600);
 
             Orbwalker.OnPreAttack += Orbwalker_OnPreAttack;
             Game.OnUpdate += OnGameUpdate;
@@ -331,6 +339,21 @@
                    E.Cast(target);
                 }
 
+                if (MiscMenu["AutoIgnite"].Cast<CheckBox>().CurrentValue)
+                {
+                    if (!ign.IsReady() || EloBuddy.Player.Instance.IsDead) return;
+                    foreach (
+                        var enemigo in
+                            EntityManager.Heroes.Enemies
+                                .Where(
+                                    ignite => ignite.IsValidTarget(ign.Range) &&
+                                        ignite.Health < 50 + 20 * EloBuddy.Player.Instance.Level - (ignite.HPRegenRate / 5 * 3)))
+                    {
+                        ign.Cast(enemigo);
+                        return;
+                    }
+                }
+
                 if (ComboMenu["Qcc"].Cast<CheckBox>().CurrentValue)
                 {
                     if (!Utils.CanMove(target))
@@ -344,6 +367,31 @@
                     {
                         Q.Cast(target);
                     }
+                }
+            }
+        }
+
+        private static void Killsteal()
+        {
+            foreach (AIHeroClient target in
+                ObjectManager.Get<AIHeroClient>()
+                    .Where(
+                        hero =>
+                            hero.IsValidTarget(Q.Range) && !hero.HasBuffOfType(BuffType.Invulnerability) && hero.IsEnemy)
+                )
+            {
+                var qDmg = Player.GetSpellDamage(target, SpellSlot.Q);
+                if (MiscMenu["ksQ"].Cast<CheckBox>().CurrentValue && target.IsValidTarget(Q.Range) && target.Health <= qDmg)
+                {
+                    var qpred = Q.GetPrediction(target);
+                    if (qpred.HitChance >= EloBuddy.SDK.Enumerations.HitChance.High && qpred.CollisionObjects.Count(h => h.IsEnemy && !h.IsDead && h is Obj_AI_Minion) < 2)
+                        Q.Cast(qpred.CastPosition);
+                }
+                var qprediction = Q.GetPrediction(target);
+                if (MiscMenu["ksQ"].Cast<CheckBox>().CurrentValue && W.IsReady())
+                {
+                    W.Cast();
+                    Q.Cast(qprediction.CastPosition);
                 }
             }
         }
