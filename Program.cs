@@ -284,27 +284,15 @@
 
         private static void OnGameUpdate(EventArgs args)
         {
-            switch (Orbwalker.ActiveModesFlags)
-            {
-                case Orbwalker.ActiveModes.Combo:
-                    Combo();
-                    break;
-                case Orbwalker.ActiveModes.LaneClear:
-                    LaneClear();
-                    break;
-                case Orbwalker.ActiveModes.Harass:
-                    Harass();
-                    break;
-            }
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)) Combo();
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear)) LaneClear();
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass)) Harass();
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee)) Flee();
 
             Ultbitches();
             ZileanSKins();
             Ult();
 
-            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
-            {
-                Flee();
-            }
 
             if (HarassMenu["autoH"].Cast<KeyBind>().CurrentValue)
             {
