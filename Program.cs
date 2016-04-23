@@ -81,7 +81,7 @@
             ComboMenu.AddGroupLabel("Combo Settings");
             ComboMenu.Add("useQ", new CheckBox("Use Q"));
             ComboMenu.Add("useW1", new CheckBox("Use W", false));
-            ComboMenu.Add("useW2", new CheckBox("Use W to reset Q when target is marked"));
+            ComboMenu.Add("useW2", new CheckBox("Use W only if Q hits"));
             ComboMenu.Add("useE", new CheckBox("Use E"));
             ComboMenu.Add("Qcc", new CheckBox("Use Q on immobile"));
 
@@ -91,8 +91,10 @@
             HarassMenu.Add("useQH", new CheckBox("Use Q"));
             HarassMenu.Add("useEH", new CheckBox("Use E", false));
             HarassMenu.Add("autoH", new KeyBind("Auto Harass", false, KeyBind.BindTypes.PressToggle, 'T'));
+            HarassMenu.AddSeparator();
             HarassMenu.Add("autoHQ", new CheckBox("Use Q AutoHarass"));
             HarassMenu.Add("autoHE", new CheckBox("Use E AutoHarass"));
+            HarassMenu.AddSeparator();
             HarassMenu.Add("HMana", new Slider("Min % mana for AutoHarass", 30, 0, 100));
 
 
@@ -100,6 +102,7 @@
             LaneMenu.AddGroupLabel("LaneClear Settings");
             LaneMenu.Add("useQL", new CheckBox("Use Q"));
             LaneMenu.Add("useWL", new CheckBox("Use W to reset bomb"));
+            LaneMenu.AddSeparator();
             LaneMenu.Add("usemanaL", new Slider("Min % mana for LaneClear", 30, 0, 100));
             LaneMenu.Add("lccount", new Slider("Min Minions for Q", 3, 0, 8));
 
@@ -113,7 +116,7 @@
 
             DrawMenu = ZilMenu.AddSubMenu("Draw");
             DrawMenu.AddGroupLabel("Drawings Settings");
-            DrawMenu.Add("drawaoff", new CheckBox("[Drawing] Drawings off", false));
+            DrawMenu.Add("drawaoff", new CheckBox("Disable Draws", false));
             DrawMenu.Add("drawq", new CheckBox("Draw Q"));
             DrawMenu.Add("draww", new CheckBox("Draw W"));
             DrawMenu.Add("drawe", new CheckBox("Draw E"));
