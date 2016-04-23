@@ -308,6 +308,7 @@
             Ultbitches();
             ZileanSKins();
             Ult();
+            Killsteal();
 
 
             if (HarassMenu["autoH"].Cast<KeyBind>().CurrentValue)
