@@ -72,7 +72,7 @@
                 }
             }
             UltMenu.AddSeparator();
-            UltMenu.Add("user", new CheckBox("Cast R on Myself"));
+            UltMenu.Add("user", new CheckBox("Use ult on Myself"));
             UltMenu.Add("rhp", new Slider("Self Health %", 15, 1, 100));
 
 
@@ -121,6 +121,11 @@
             DrawMenu.Add("draww", new CheckBox("Draw W"));
             DrawMenu.Add("drawe", new CheckBox("Draw E"));
             DrawMenu.Add("drawr", new CheckBox("Draw R"));
+
+            FleeMenu = ZilMenu.AddSubMenu("Flee");
+            FleeMenu.AddGroupLabel("Flee Settings");
+            FleeMenu.Add("fleee", new CheckBox("Use E"));
+            FleeMenu.Add("fleew", new CheckBox("Use W"));
 
             SkinMenu = ZilMenu.AddSubMenu("Skin", "Skin");
             SkinMenu.AddGroupLabel("Skin Selectior");
@@ -367,7 +372,7 @@
                 && target.IsValidTarget(Q.Range))
             {
                 var pred = Q.GetPrediction(target);
-                if (pred.HitChance >= EloBuddy.SDK.Enumerations.HitChance.High)
+                if (pred.HitChance >= HitChance.High)
                 {
                     Q.Cast(pred.UnitPosition);
                 }
@@ -413,12 +418,12 @@
         {
             Orbwalker.OrbwalkTo(Game.CursorPos);
 
-            if (E.IsReady())
+            if (FleeMenu["fleee"].Cast<CheckBox>().CurrentValue && E.IsReady())
             {
                 E.Cast(Player);
             }
 
-            if (W.IsReady())
+            if (FleeMenu["fleew"].Cast<CheckBox>().CurrentValue && W.IsReady())
             {
                 W.Cast();
             }
