@@ -357,7 +357,7 @@
 
                 if (ComboMenu["Qcc"].Cast<CheckBox>().CurrentValue)
                 {
-                    if (!Utils.CanMove(target))
+                    if (!Utils2.CanMove(target))
                         Q.Cast(target);
                     var pred = Q.GetPrediction(target);
                     if (pred.HitChance == EloBuddy.SDK.Enumerations.HitChance.Dashing)

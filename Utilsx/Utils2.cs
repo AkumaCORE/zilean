@@ -92,6 +92,20 @@ namespace Zileanz
             return new FarmLocation(result, minionCount);
         }
 
+        public static bool CanMove(Obj_AI_Base target)
+        {
+            if (target.HasBuffOfType(BuffType.Stun) || target.HasBuffOfType(BuffType.Snare) ||
+                target.HasBuffOfType(BuffType.Knockup) ||
+                target.HasBuffOfType(BuffType.Charm) || target.HasBuffOfType(BuffType.Fear) ||
+                target.HasBuffOfType(BuffType.Knockback) ||
+                target.HasBuffOfType(BuffType.Taunt) || target.HasBuffOfType(BuffType.Suppression) ||
+                target.IsStunned || (target.IsChannelingImportantSpell() && !target.IsMoving))
+            {
+                return false;
+            }
+            return true;
+        }
+
         private static List<List<Vector2>> GetCombinations(List<Vector2> allValues)
         {
             var collection = new List<List<Vector2>>();

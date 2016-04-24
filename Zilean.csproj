@@ -62,6 +62,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Utilsx\Interrupter.cs" />
+    <Compile Include="Utilsx\LastCastedSpell.cs" />
     <Compile Include="Utilsx\MEC.cs" />
     <Compile Include="Utilsx\MEC2.cs" />
     <Compile Include="Program.cs" />
