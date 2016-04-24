@@ -62,19 +62,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Utilsx\Dash.cs" />
-    <Compile Include="Utilsx\HuePrediction.cs" />
-    <Compile Include="Utilsx\Interrupter.cs" />
-    <Compile Include="Utilsx\LastCastedSpell.cs" />
-    <Compile Include="Utilsx\MathUtils.cs" />
     <Compile Include="Utilsx\MEC.cs" />
     <Compile Include="Utilsx\MEC2.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilsx\Tick.cs" />
     <Compile Include="Utilsx\Utils.cs" />
     <Compile Include="Utilsx\Utils2.cs" />
-    <Compile Include="Utilsx\Vector2Extensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
